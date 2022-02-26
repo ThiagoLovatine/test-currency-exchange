@@ -1,0 +1,141 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Currency Exchange",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/currencies": {
+            "get": {
+                "summary": "List all currencies",
+                "description": "Returns a list of currencies with pagination",
+                "operationId": "index",
+                "parameters": [
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "The pagination offset number (Starts from 0)",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "The pagination limit number (Takes X)",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns a list of currencies",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                },
+                                "example": [
+                                    {
+                                        "id": 1,
+                                        "symbol": "USD"
+                                    },
+                                    {
+                                        "id": 2,
+                                        "symbol": "JPY"
+                                    },
+                                    {
+                                        "id": 3,
+                                        "symbol": "EUR"
+                                    },
+                                    {
+                                        "id": 4,
+                                        "symbol": "BRL"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/exchange": {
+            "post": {
+                "summary": "Convert a currency value to another",
+                "description": "",
+                "operationId": "convert",
+                "parameters": [
+                    {
+                        "name": "from",
+                        "in": "query",
+                        "description": "The currency to convert the value from (Should exists in the database)",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "to",
+                        "in": "query",
+                        "description": "The currency to convert the value to (Should exists in the database)",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "amount",
+                        "in": "query",
+                        "description": "The amount to convert",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "from": {
+                                            "description": "The currency the value was converted from",
+                                            "type": "string"
+                                        },
+                                        "to": {
+                                            "description": "The currency the value was converted to",
+                                            "type": "string"
+                                        },
+                                        "amount": {
+                                            "description": "Token amount that was converted from",
+                                            "type": "integer"
+                                        },
+                                        "amount_exchanged": {
+                                            "description": "Token amount that was converted to",
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "from": "USD",
+                                        "to": "BRL",
+                                        "amount": 100,
+                                        "amount_exchanged": 516.3294
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "security": [
+        []
+    ]
+}
